@@ -1,0 +1,30 @@
+{
+  "name": "jstextstylization",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hemashushu/jstextstylization.git"
+  },
+  "keywords": [
+    "stylized",
+    "stylization"
+  ],
+  "author": "Hippo Spark <hippospark@gmail.com> (https://twitter.com/hemashushu)",
+  "license": "SEE LICENSE IN <LICENSE.md>",
+  "bugs": {
+    "url": "https://github.com/hemashushu/jstextstylization/issues"
+  },
+  "homepage": "https://github.com/hemashushu/jstextstylization#readme",
+  "devDependencies": {
+    "domino": "^2.1.6",
+    "mocha": "^8.3.2"
+  },
+  "dependencies": {
+    "jscontenteditableelementtextselection": "github:hemashushu/jscontenteditableelementtextselection"
+  }
+}
