@@ -2,21 +2,21 @@ const assert = require('assert/strict');
 const domino = require('domino');
 const NodeFilter = require('domino/lib/NodeFilter');
 
-const {TextSelection} = require('jstextselection');
+const { TextSelection } = require('jstextselection');
 const { TextStylization } = require('../index');
 
 describe('TextStylization Test', () => {
 
-    let createDocumentElement = () => {
+    let createDocumentObject = () => {
         let doc1 = domino.createDocument(
             '<div>0123456789abcdefghij</div>', true);
-            //    01234567890123456789
+        //    01234567890123456789
 
         return doc1;
     };
 
     it('Test applyToRanges() - one style', () => {
-        let documentObject = createDocumentElement();
+        let documentObject = createDocumentObject();
         let rootElement = documentObject.body.firstElementChild;
 
         let ts1 = new TextStylization(rootElement, 'foo', documentObject, NodeFilter);
@@ -38,7 +38,7 @@ describe('TextStylization Test', () => {
     });
 
     it('Test applyToRanges() - multiple style', () => {
-        let documentObject = createDocumentElement();
+        let documentObject = createDocumentObject();
         let rootElement = documentObject.body.firstElementChild;
 
         // apply 'foo' style
@@ -69,7 +69,7 @@ describe('TextStylization Test', () => {
     });
 
     it('Test applyToRanges() - cross style', () => {
-        let documentObject = createDocumentElement();
+        let documentObject = createDocumentObject();
         let rootElement = documentObject.body.firstElementChild;
 
         // apply 'foo' style

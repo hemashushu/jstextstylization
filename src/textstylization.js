@@ -21,17 +21,8 @@ class TextStylization {
     constructor(rootElement, className, documentObject, nodeFilterObject) {
         this.rootElement = rootElement;
         this.className = className;
-
-        if (documentObject === undefined) {
-            documentObject = global.document;
-        }
-
-        if (nodeFilterObject === undefined) {
-            nodeFilterObject = global.NodeFilter;
-        }
-
-        this.documentObject = documentObject;
-        this.nodeFilterObject = nodeFilterObject;
+        this.documentObject = documentObject ?? global.document;
+        this.nodeFilterObject = nodeFilterObject ?? global.NodeFilter;
     }
 
     /**
