@@ -13,10 +13,25 @@ class TextStylization {
      *
      * @param {*} rootElement
      * @param {*} className 待风格化的样式的名称，当前只支持添加一个样式名称。
+     * @param {*} documentObject 可选参数。如果用在非浏览器环境，需要设置 Document 对象，
+     *     它可以由 domino 包的 domino.createDocument() 方法产生。
+     * @param {*} nodeFilterObject 可选参数。如果用在非浏览器环境，需要设置 NodeFilter 对象，
+     *     它可以由 domino 包导入，如 require('domino/lib/NodeFilter') 获得。
      */
-    constructor(rootElement, className) {
+    constructor(rootElement, className, documentObject, nodeFilterObject) {
         this.rootElement = rootElement;
         this.className = className;
+
+        if (documentObject === undefined) {
+            documentObject = global.document;
+        }
+
+        if (nodeFilterObject === undefined) {
+            nodeFilterObject = global.NodeFilter;
+        }
+
+        this.documentObject = documentObject;
+        this.nodeFilterObject = nodeFilterObject;
     }
 
     /**
@@ -169,7 +184,7 @@ class TextStylization {
         // 一个标记，用来断定当前是在搜索 start position 还是 end position
         let isFindingTextSelectionEndPos = false;
 
-        let treeWalker = document.createTreeWalker(this.rootElement, NodeFilter.SHOW_TEXT);
+        let treeWalker = this.documentObject.createTreeWalker(this.rootElement, this.nodeFilterObject.SHOW_TEXT);
         while (treeWalker.nextNode()) {
             let currentNode = treeWalker.currentNode;
             let nodeValue = currentNode.nodeValue;
@@ -279,12 +294,12 @@ class TextStylization {
                 // 只有前半部分 Node 需要更新
 
                 // 创建一个装载 Node 前半部分内容的容器元素
-                let headNodeContainer = document.createElement('span');
+                let headNodeContainer = this.documentObject.createElement('span');
                 headNodeContainer.classList.add(this.className);
 
                 let headNodeValue = nodeValue.substring(startOffset, endOffset);
                 // https://developer.mozilla.org/en-US/docs/Web/API/Document/createTextNode
-                let headTextNode = document.createTextNode(headNodeValue);
+                let headTextNode = this.documentObject.createTextNode(headNodeValue);
                 headNodeContainer.appendChild(headTextNode);
                 parentNode.insertBefore(headNodeContainer, node);
 
@@ -305,12 +320,12 @@ class TextStylization {
                 let nextSiblingNode = node.nextSibling;
 
                 // 创建中间部分 Text Node 的容器元素
-                let middleNodeContainer = document.createElement('span');
+                let middleNodeContainer = this.documentObject.createElement('span');
                 middleNodeContainer.classList.add(this.className);
 
                 let middleNodeValue = nodeValue.substring(startOffset, endOffset);
                 // https://developer.mozilla.org/en-US/docs/Web/API/Document/createTextNode
-                let middleTextNode = document.createTextNode(middleNodeValue);
+                let middleTextNode = this.documentObject.createTextNode(middleNodeValue);
                 middleNodeContainer.appendChild(middleTextNode);
                 parentNode.insertBefore(middleNodeContainer, nextSiblingNode);
 
@@ -320,7 +335,7 @@ class TextStylization {
                 if (endOffset < nodeValue.length) {
                     // 创建尾部 Text Node
                     let tailTextNodeValue = nodeValue.substring(endOffset, nodeValue.length);
-                    let tailTextNode = document.createTextNode(tailTextNodeValue);
+                    let tailTextNode = this.documentObject.createTextNode(tailTextNodeValue);
                     parentNode.insertBefore(tailTextNode, nextSiblingNode);
                 }
             }
@@ -363,7 +378,7 @@ class TextStylization {
             // https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
             // https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
             // https://developer.mozilla.org/en-US/docs/Web/API/Node/insertBefore
-            let textNodeContainer = document.createElement('span');
+            let textNodeContainer = this.documentObject.createElement('span');
             textNodeContainer.classList.add(this.className);
 
             // 把容器元素插入到原先 Node 的地方。

@@ -22,6 +22,7 @@
   "homepage": "https://github.com/hemashushu/jstextstylization#readme",
   "devDependencies": {
     "domino": "^2.1.6",
+    "jstextselection": "github:hemashushu/jstextselection",
     "mocha": "^8.3.2"
   },
   "dependencies": {
